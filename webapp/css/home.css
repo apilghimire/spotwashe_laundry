@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #333;
+}
+
+.welcome-section {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: #f8f6ff;
+    border-radius: 12px;
+    padding: 20px;
+    width: 240px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.card button {
+    margin-top: 10px;
+    padding: 10px;
+    background: #7b61ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

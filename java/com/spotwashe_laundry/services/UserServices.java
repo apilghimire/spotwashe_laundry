@@ -1,0 +1,84 @@
+package com.spotwashe_laundry.services;
+
+import java.sql.*;
+
+import com.spotwashe_laundry.config.DbConnection;
+import com.spotwashe_laundry.model.User;
+import com.spotwashe_laundry.util.PasswordEncryption;
+
+public class UserServices {
+	
+	private Connection dbConn;
+
+	/**
+	 * Constructor initializes the database connection.
+	 */
+	public UserServices() {
+		try {
+			this.dbConn = DbConnection.getDbConnection();
+		} catch (SQLException | ClassNotFoundException ex) {
+			System.err.println("Database connection error: " + ex.getMessage());
+			ex.printStackTrace();
+		}
+	}
+
+	public boolean registerUser(User user) {
+		boolean flag = false;
+		String query = "INSERT INTO User (name, number, email, dateofbirth, address, role, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		try (PreparedStatement st = dbConn.prepareStatement(query)) {
+			st.setString(1, user.getUserName());
+			st.setLong(2, user.getNumber());
+			st.setString(3, user.getEmail());
+			st.setString(4, user.getDateOfBirth());
+			st.setString(5, user.getUserAddress());
+			st.setString(6, user.getRole());
+			st.setString(7, user.getPassword());
+			st.executeUpdate();
+			flag = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Exception on DB");
+		}
+		return flag;
+	}
+	
+	public User login(String email, String password) {
+		User customer = null;
+		try {
+			String query = "SELECT * FROM user WHERE email = ?";
+
+			PreparedStatement pst = dbConn.prepareStatement(query);
+			pst.setString(1, email);
+
+			ResultSet set = pst.executeQuery();
+
+			if (set.next()) {
+				customer = new User();
+
+				customer.setUserId(set.getInt("userid"));
+
+				// data from db
+				String name = set.getString("name");
+				// set to user object
+				customer.setUserName(name);
+				customer.setEmail(set.getString("email"));
+				customer.setNumber(set.getLong("number"));
+				String password1 = set.getString("password");
+				String decryptPassword = PasswordEncryption.decrypt(password1, email);
+				customer.setPassword(decryptPassword);
+
+				customer.setDateOfBirth(set.getString("dateofbirth"));
+				customer.setUserAddress(set.getString("address"));
+				customer.setRole(set.getString("role"));
+				if (decryptPassword != null && set.getString("email").equals(email)
+						&& decryptPassword.equals(password)) {
+					return customer;
+				}
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+}

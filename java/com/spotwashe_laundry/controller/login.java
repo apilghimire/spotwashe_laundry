@@ -1,6 +1,8 @@
 package com.spotwashe_laundry.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.spotwashe_laundry.model.User;
 import com.spotwashe_laundry.services.UserServices;
@@ -23,10 +25,37 @@ public class login extends HttpServlet {
 	    if (session != null && session.getAttribute("currentUser") != null) {
 	        // User is already logged in, redirect to home
 	    	req.setAttribute("success", "Already Logged IN");
-	    	req.getRequestDispatcher("/pages/home.jsp").forward(req, resp);
+	    	// Forward to homepage or dashboard
+		    String userRole = null;
+		    Cookie[] cookies = req.getCookies();
+		    
+		    if (cookies != null) {
+		        for (Cookie cookie : cookies) {
+		            if ("userRole".equals(cookie.getName())) {
+		                userRole = cookie.getValue();
+		                break;
+		            }
+		        }
+		    }
+
+		    // Now you can use userRole
+		    if ("admin".equals(userRole)) {
+		    	req.getRequestDispatcher("/WEB-INF/pages/admin/Dashboard.jsp").forward(req, resp);
+		    } else if ("User".equals(userRole)) {
+		    	User currentUser = (User) session.getAttribute("currentUser");
+		        Map<String, String> userInfo = new HashMap<>();
+		        userInfo.put("name", currentUser.getUserName());
+		        userInfo.put("phone", String.valueOf(currentUser.getNumber()));
+		        userInfo.put("address", currentUser.getUserAddress());
+		        req.setAttribute("userInfo", userInfo);
+		        
+		        
+		    	req.getRequestDispatcher("/WEB-INF/pages/user/Dashboard.jsp").forward(req, resp);				    }
+
+
 	    } else {
 	        // No active session, show login page
-	        req.getRequestDispatcher("WEB-INF/pages/common/login.jsp").forward(req, resp);
+	        req.getRequestDispatcher("/WEB-INF/pages/common/login.jsp").forward(req, resp);
 	    }
 	}
 
@@ -68,7 +97,25 @@ public class login extends HttpServlet {
 				    resp.addCookie(roleCookie);
 
 				    // Forward to homepage or dashboard
-				    req.getRequestDispatcher("/pages/home.jsp").forward(req, resp);
+				    String userRole = null;
+				    Cookie[] cookies = req.getCookies();
+
+				    if (cookies != null) {
+				        for (Cookie cookie : cookies) {
+				            if ("userRole".equals(cookie.getName())) {
+				                userRole = cookie.getValue();
+				                break;
+				            }
+				        }
+				    }
+
+				    // Now you can use userRole
+				    if ("admin".equals(userRole)) {
+				    	req.getRequestDispatcher("/WEB-INF/pages/admin/Dashboard.jsp").forward(req, resp);
+				    } else if ("User".equals(userRole)) {
+				    	req.getRequestDispatcher("/WEB-INF/pages/user/Dashboard.jsp").forward(req, resp);				    }
+
+
 				}
 
 

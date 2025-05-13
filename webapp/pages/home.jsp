@@ -30,7 +30,7 @@ ${contextPath}
         <h2>Our Services</h2>
         <div class="cards">
             <div class="card">
-                <h3>Wash & Fold</h3>
+                <h3>Wash and Fold</h3>
                 <p>Convenient wash and fold service for your daily laundry needs.</p>
                 <button>Book Now</button>
             </div>
@@ -45,7 +45,7 @@ ${contextPath}
                 <button>Book Now</button>
             </div>
             <div class="card">
-                <h3>Pickup & Delivery</h3>
+                <h3>Pickup and Delivery</h3>
                 <p>Doorstep pickup and delivery for ultimate convenience.</p>
                 <button>Book Now</button>
             </div>

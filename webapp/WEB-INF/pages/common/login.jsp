@@ -4,40 +4,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Registration</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/register.css">
-    <!-- Font Awesome for icons -->
+    <title>Sign In</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- SweetAlert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 
-<div class="container">
-    <form id="signup-form" action="${pageContext.request.contextPath}/login" method="post">	
-        <h2>User Login</h2>
-        <input type="email" name="email" placeholder="Email" required />
+<div class="login-container">
+    <form id="signup-form" action="${pageContext.request.contextPath}/login" method="post">
+        <h2>Sign In</h2>
 
+        <div class="top-blank"></div>
 
-        <div class="password-wrapper">
-            <input type="password" id="password" name="password" placeholder="Password" required />
+        <a href="javascript:history.back()" class="back-button">Back</a>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" placeholder="Enter your email" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+
+        <button type="submit" id="submit-btn" class="login-button">Login</button>
+
+        <div class="row-button-group">
+            <a href="${pageContext.request.contextPath}/forgotpassword" class="link-button">Forgot Password</a>
+            <a href="${pageContext.request.contextPath}/register" class="link-button">Create Account</a>
         </div>
 
-        <button type="submit" id="submit-btn">Register</button>
         <div id="loader" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Processing...</div>
     </form>
-    <div class="row">
-            <a href="${pageContext.request.contextPath}/forgotpassword" class="forgot-button">Forgot Password</a>
-        </div>
-        
-        <div class="row">
-            <a href="${pageContext.request.contextPath}/register" class="register-button">Create new account</a>
-        </div>
 </div>
 
-<!-- Display Success or Error Alert from Servlet -->
 <c:if test="${not empty success}">
     <script>
         $(document).ready(function() {
@@ -56,7 +55,3 @@
 
 </body>
 </html>
-
-
-
-

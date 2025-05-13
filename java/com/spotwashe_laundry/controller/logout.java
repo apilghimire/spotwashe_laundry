@@ -51,7 +51,7 @@ public class logout extends HttpServlet {
         }
 
         // Redirect to home page.
-        request.setAttribute("success", "Login Success");
+        request.setAttribute("success", "Logout Success, See you Soon :)");
         request.getRequestDispatcher("/pages/home.jsp").forward(request, response);
     }
 

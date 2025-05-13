@@ -31,7 +31,7 @@
     </section>
 
     <section style="margin-top: 60px;">
-        <h2>Skills & Tools</h2>
+        <h2>Skills and Tools</h2>
         <div class="cards">
             <div class="card">
                 <h4>Frontend</h4>

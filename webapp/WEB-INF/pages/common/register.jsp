@@ -4,43 +4,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Registration</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/register.css">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- SweetAlert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 
-<div class="container">
-    <form id="signup-form" action="${pageContext.request.contextPath}/register" method="post">	
-        <h2>User Registration</h2>
-        
-        <input type="text" name="userName" placeholder="Username" required />
-        <input type="number" name="number" placeholder="Phone Number" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="date" name="dateOfBirth" required />
-        <textarea name="userAddress" placeholder="Address" required></textarea>
+<div class="form-container">
+    <form id="signup-form" action="${pageContext.request.contextPath}/register" method="post">
+        <h2>Sign Up</h2>
+        <p class="subheading">Create your spotwashe account to get started.</p>
 
+        <label for="userName">Full Name</label>
+        <input type="text" name="userName" placeholder="Enter your name" required />
+
+        <label for="number">Phone Number</label>
+        <input type="number" name="number" placeholder="Enter your phone" required />
+
+        <label for="email">Email</label>
+        <input type="email" name="email" placeholder="Enter your email" required />
+
+        <label for="dateOfBirth">Date of Birth</label>
+        <input type="date" name="dateOfBirth" placeholder="MM/DD/YYYY" required />
+
+        <label for="userAddress">Address</label>
+        <input type="text" name="userAddress" placeholder="Enter your address" required />
+
+        <label for="role">Role Type</label>
         <select name="role" required>
-            <option value="" disabled selected>Select Role</option>
+            <option value="" disabled selected>Select role</option>
             <option value="admin">Admin</option>
             <option value="user">User</option>
         </select>
 
-        <div class="password-wrapper">
-            <input type="password" id="password" name="password" placeholder="Password" required />
+        <label for="password">Password</label>
+        <input type="password" name="password" placeholder="Create a password" required />
+
+        <div class="button-group">
+            <a href="javascript:history.back()" class="back-button">Back</a>
+            <button type="submit" id="submit-btn" class="submit-button">Create Account</button>
         </div>
 
-        <button type="submit" id="submit-btn">Register</button>
         <div id="loader" style="display:none;"><i class="fas fa-spinner fa-spin"></i> Processing...</div>
     </form>
 </div>
 
-<!-- Display Success or Error Alert from Servlet -->
+<!-- Alert handlers -->
 <c:if test="${not empty success}">
     <script>
         $(document).ready(function() {

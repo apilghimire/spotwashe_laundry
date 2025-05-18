@@ -77,6 +77,7 @@ public class order extends HttpServlet {
 				place.setCustomerID(currentUser.getUserId());
 				long finalPrice =(long)basePrice*weight;
 				place.setFinalPrice(finalPrice);
+				place.setProgress("processing");
 				
 				// 5. Call UserServices to handle business logic
 				OrderServices orderServices = new OrderServices();

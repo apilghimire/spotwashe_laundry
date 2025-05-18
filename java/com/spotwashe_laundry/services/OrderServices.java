@@ -24,24 +24,6 @@ public class OrderServices {
 		}
 	}
 	
-	public ArrayList<Order> orderList() {
-		ArrayList<Order> orders = new ArrayList<Order>(); // Create an ArrayList object
-		try {
-			String query = "SELECT * FROM Order ";
-
-			PreparedStatement pst = dbConn.prepareStatement(query);
-			ResultSet set = pst.executeQuery();
-
-			while (set.next()) {
-	            Order serv = new Order(set.getInt("laundryid"),set.getInt("userid"),set.getInt("serviceid"),set.getInt("weight"),set.getString("pickup_datetime"),set.getString("dropoff_datetime"),set.getLong("final_price"));
-	            orders.add(serv);
-	        }
-			return orders;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	public Order order(int id) {
 
@@ -54,6 +36,7 @@ public class OrderServices {
 
 			while (set.next()) {
 	            Order serv = new Order(set.getInt("laundryid"),set.getInt("userid"),set.getInt("serviceid"),set.getInt("weight"),set.getString("pickup_datetime"),set.getString("dropoff_datetime"),set.getLong("final_price"));
+	            serv.setProgress(set.getString("progress"));
 	            return serv;
 	        }
 
@@ -66,7 +49,7 @@ public class OrderServices {
 	
 	public boolean registerOrder(Order order) {
 		boolean flag = false;
-		String query = "INSERT INTO `Order` ( userid, serviceid, weight, pickup_datetime, dropoff_datetime, final_price) VALUES (?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO `Order` ( userid, serviceid, weight, pickup_datetime, dropoff_datetime, final_price, progress) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement st = dbConn.prepareStatement(query)) {
 			st.setInt(1,order.getCustomerID() );
 			st.setInt(2, order.getServiceType());
@@ -74,6 +57,7 @@ public class OrderServices {
 			st.setString(4, order.getPickUpDate());
 			st.setString(5, order.getDropoffDate());
 			st.setLong(6, order.getFinalPrice());
+			st.setString(7, order.getProgress());
 			st.executeUpdate();
 			flag = true;
 		} catch (SQLException e) {
@@ -93,6 +77,7 @@ public class OrderServices {
 
 			while (set.next()) {
 	            Order serv = new Order(set.getInt(1),set.getInt(2),set.getInt(3),set.getInt(4),set.getString(5),set.getString(6),set.getLong(7));
+	            serv.setProgress(set.getString("progress"));
 	            orderList.add(serv);
 	        }
 			return orderList;
@@ -101,5 +86,38 @@ public class OrderServices {
 		}
 		return null;
 	}
+	
+	public ArrayList<Order> allOrderList() {
+		ArrayList<Order> orderList = new ArrayList<Order>(); // Create an ArrayList object
+		try {
+			String query = "SELECT * FROM `Order`";
+			PreparedStatement pst = dbConn.prepareStatement(query);
+			ResultSet set = pst.executeQuery();
+
+			while (set.next()) {
+	            Order serv = new Order(set.getInt(1),set.getInt(2),set.getInt(3),set.getInt(4),set.getString(5),set.getString(6),set.getLong(7));
+	            serv.setProgress(set.getString("progress"));
+	            orderList.add(serv);
+	        }
+			return orderList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public boolean markOrderAsComplete(int orderId) {
+        boolean updated = false;
+        String query = "UPDATE `Order` SET progress = 'complete' WHERE laundryid = ?";
+
+        try (PreparedStatement pst = dbConn.prepareStatement(query)) {
+            pst.setInt(1, orderId);
+            int rows = pst.executeUpdate();
+            updated = rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return updated;
+    }
 	
 }

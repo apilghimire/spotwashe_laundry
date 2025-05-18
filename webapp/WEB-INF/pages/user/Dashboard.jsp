@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<jsp:useBean id="now" class="java.util.Date" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,9 +19,9 @@
     <div class="navbar-left">
         <div class="brand">Spotwashe</div>
         <nav class="nav-links">
-            <a href="${pageContext.request.contextPath}/login"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="${pageContext.request.contextPath}/dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
             <a href="${pageContext.request.contextPath}/order"><i class="fas fa-file-alt"></i> Orders</a>
-            <a href="${pageContext.request.contextPath}/Profile"><i class="fas fa-user"></i> Profile</a>
+            <a href="${pageContext.request.contextPath}/profile"><i class="fas fa-user"></i> Profile</a>
         </nav>
     </div>
     <a href="${pageContext.request.contextPath}/logout" class="logout-btn">
@@ -59,28 +63,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><i class="fas fa-truck"></i> Order #1023</td>
-                <td>Completed</td>
-                <td>2024-06-10</td>
-                <td>$25.00</td>
-                <td><i class="fas fa-box-open"></i></td>
-            </tr>
-            <tr>
-                <td><i class="fas fa-truck"></i> Order #1022</td>
-                <td>In Progress</td>
-                <td>2024-06-08</td>
-                <td>$18.00</td>
-                <td><i class="fas fa-box-open"></i></td>
-            </tr>
-            <tr>
-                <td><i class="fas fa-truck"></i> Order #1021</td>
-                <td>Cancelled</td>
-                <td>2024-06-05</td>
-                <td>$0.00</td>
-                <td><i class="fas fa-box-open"></i></td>
-            </tr>
-        </tbody>
+		    <c:forEach var="order" items="${userOrderList}">
+		        <tr>
+		            <td><i class="fas fa-truck"></i> Order #${order.orderId}</td>
+		            <td>inProgress</td>
+		            <td>${order.pickUpDate}</td>
+		            <td>$${order.finalPrice}</td>
+		            <td><i class="fas fa-box-open"></i></td>
+		        </tr>
+		    </c:forEach>
+		</tbody>
+
     </table>
 </main>
 

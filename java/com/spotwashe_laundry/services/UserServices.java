@@ -81,4 +81,28 @@ public class UserServices {
 		}
 		return null;
 	}
+	
+	public boolean update(User user) {
+	    boolean flag = false;
+	    String query = "UPDATE User SET name = ?, number = ?, dateofbirth = ?, address = ?, password = ? WHERE userId = ?";
+
+	    try (PreparedStatement st = dbConn.prepareStatement(query)) {
+	        st.setString(1, user.getUserName());
+	        st.setLong(2, user.getNumber());
+	        st.setString(3, user.getDateOfBirth());
+	        st.setString(4, user.getUserAddress());
+	        st.setString(5, PasswordEncryption.encrypt(user.getEmail(),user.getPassword()));
+	        st.setInt(6, user.getUserId());
+
+	        int rowsAffected = st.executeUpdate();
+	        flag = rowsAffected > 0;
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Exception during update");
+	    }
+
+	    return flag;
+	}
+
 }

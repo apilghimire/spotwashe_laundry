@@ -1,10 +1,14 @@
 package com.spotwashe_laundry.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.spotwashe_laundry.model.Order;
 import com.spotwashe_laundry.model.User;
+import com.spotwashe_laundry.services.OrderServices;
+import com.spotwashe_laundry.services.ReportServices;
 import com.spotwashe_laundry.services.UserServices;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(asyncSupported = true, urlPatterns = {"/login"})
+@WebServlet(asyncSupported = true, urlPatterns = {"/login","/dashboard"})
 public class login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +44,17 @@ public class login extends HttpServlet {
 
 		    // Now you can use userRole
 		    if ("admin".equals(userRole)) {
-		    	req.getRequestDispatcher("/WEB-INF/pages/admin/Dashboard.jsp").forward(req, resp);
+		    	// Fetch report data
+		    	ReportServices reportServices = new ReportServices();
+
+	            Map<String, Object> overview = new HashMap<>();
+	            overview.put("totalOrder", reportServices.getTotalOrders());
+	            overview.put("totalUser", reportServices.getTotalUsers());
+	            overview.put("totalCompleted", reportServices.getCompletedOrders());
+	            overview.put("totalProfit", reportServices.getTotalRevenue());
+
+	            req.setAttribute("overview", overview);
+	            req.getRequestDispatcher("/WEB-INF/pages/admin/Dashboard.jsp").forward(req, resp);
 		    } else if ("User".equals(userRole)) {
 		    	User currentUser = (User) session.getAttribute("currentUser");
 		        Map<String, String> userInfo = new HashMap<>();
@@ -48,6 +62,9 @@ public class login extends HttpServlet {
 		        userInfo.put("phone", String.valueOf(currentUser.getNumber()));
 		        userInfo.put("address", currentUser.getUserAddress());
 		        req.setAttribute("userInfo", userInfo);
+		        OrderServices servicess = new OrderServices();
+		        ArrayList<Order> orderList= servicess.customerOrderList(currentUser.getUserId());
+		        req.setAttribute("userOrderList", orderList);
 		        
 		        
 		    	req.getRequestDispatcher("/WEB-INF/pages/user/Dashboard.jsp").forward(req, resp);				    }
@@ -111,9 +128,11 @@ public class login extends HttpServlet {
 
 				    // Now you can use userRole
 				    if ("admin".equals(userRole)) {
-				    	req.getRequestDispatcher("/WEB-INF/pages/admin/Dashboard.jsp").forward(req, resp);
+				    	resp.sendRedirect("dashboard");
 				    } else if ("User".equals(userRole)) {
-				    	req.getRequestDispatcher("/WEB-INF/pages/user/Dashboard.jsp").forward(req, resp);				    }
+
+				        resp.sendRedirect("dashboard");
+				    }
 
 
 				}

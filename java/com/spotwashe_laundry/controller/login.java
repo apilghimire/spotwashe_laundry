@@ -28,7 +28,6 @@ public class login extends HttpServlet {
 	    HttpSession session = req.getSession(false); // don't create new session
 	    if (session != null && session.getAttribute("currentUser") != null) {
 	        // User is already logged in, redirect to home
-	    	req.setAttribute("success", "Already Logged IN");
 	    	// Forward to homepage or dashboard
 		    String userRole = null;
 		    Cookie[] cookies = req.getCookies();
@@ -52,8 +51,10 @@ public class login extends HttpServlet {
 	            overview.put("totalUser", reportServices.getTotalUsers());
 	            overview.put("totalCompleted", reportServices.getCompletedOrders());
 	            overview.put("totalProfit", reportServices.getTotalRevenue());
-
 	            req.setAttribute("overview", overview);
+	            OrderServices servicess = new OrderServices();
+	            ArrayList<Order> allOrderList= servicess.allOrderList();
+		        req.setAttribute("userOrderList", allOrderList);
 	            req.getRequestDispatcher("/WEB-INF/pages/admin/Dashboard.jsp").forward(req, resp);
 		    } else if ("User".equals(userRole)) {
 		    	User currentUser = (User) session.getAttribute("currentUser");

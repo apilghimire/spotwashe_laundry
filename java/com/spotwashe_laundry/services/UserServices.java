@@ -1,8 +1,10 @@
 package com.spotwashe_laundry.services;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import com.spotwashe_laundry.config.DbConnection;
+import com.spotwashe_laundry.model.Service;
 import com.spotwashe_laundry.model.User;
 import com.spotwashe_laundry.util.PasswordEncryption;
 
@@ -67,6 +69,7 @@ public class UserServices {
 				String decryptPassword = PasswordEncryption.decrypt(password1, email);
 				customer.setPassword(decryptPassword);
 
+
 				customer.setDateOfBirth(set.getString("dateofbirth"));
 				customer.setUserAddress(set.getString("address"));
 				customer.setRole(set.getString("role"));
@@ -93,7 +96,6 @@ public class UserServices {
 	        st.setString(4, user.getUserAddress());
 	        st.setString(5, PasswordEncryption.encrypt(user.getEmail(),user.getPassword()));
 	        st.setInt(6, user.getUserId());
-
 	        int rowsAffected = st.executeUpdate();
 	        flag = rowsAffected > 0;
 
@@ -104,5 +106,79 @@ public class UserServices {
 
 	    return flag;
 	}
+	
+	public ArrayList<User> getAllUsers() {
+        ArrayList<User> userList = new ArrayList<>();
+        String query = "SELECT * FROM User WHERE role = ?" ;
+
+        try (PreparedStatement pst = dbConn.prepareStatement(query)){
+    		pst.setString(1, "User");
+        	ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                User user = new User(
+                    rs.getInt("userid"),
+                    rs.getString("name"),
+                    rs.getLong("number"),
+                    rs.getString("email"),
+                    rs.getString("dateofbirth"),
+                    rs.getString("address"),
+                    rs.getString("role"),
+                    PasswordEncryption.decrypt(rs.getString("password"),rs.getString("email"))
+                );
+                userList.add(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return userList;
+    }
+	
+    public User getUserById(int userId) {
+        User user = null;
+        String query = "SELECT * FROM User WHERE userid = ?";
+
+        try (PreparedStatement pst = dbConn.prepareStatement(query)) {
+            pst.setInt(1, userId);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                user = new User(
+                    rs.getInt("userid"),
+                    rs.getString("name"),
+                    rs.getLong("number"),
+                    rs.getString("email"),
+                    rs.getString("dateofbirth"),
+                    rs.getString("address"),
+                    rs.getString("role"),
+                    PasswordEncryption.decrypt(rs.getString("password"),rs.getString("email"))
+    				
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+    
+    public boolean deleteUserById(int userId) {
+        boolean result = false;
+        String query = "DELETE FROM User WHERE userid = ?";
+
+        try (PreparedStatement pst = dbConn.prepareStatement(query)) {
+            pst.setInt(1, userId);
+            int rows = pst.executeUpdate();
+            result = rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 
 }

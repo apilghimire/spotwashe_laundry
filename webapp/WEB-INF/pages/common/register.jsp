@@ -43,7 +43,7 @@
         <input type="password" name="password" placeholder="Create a password" required />
 
         <div class="button-group">
-            <a href="javascript:history.back()" class="back-button">Back</a>
+            <a href="${pageContext.request.contextPath}/login" class="back-button">Back</a>
             <button type="submit" id="submit-btn" class="submit-button">Create Account</button>
         </div>
 

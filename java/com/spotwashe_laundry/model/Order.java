@@ -8,6 +8,7 @@ public class Order {
 	private String pickUpDate;
 	private String dropoffDate;
 	private Long finalPrice;
+	private String progress;
 	public Order(int serviceType, int weight, String pickUpDate, String dropoffDate) {
 		this.serviceType = serviceType;
 		this.weight = weight;
@@ -80,6 +81,14 @@ public class Order {
 	}
 	public void setFinalPrice(long finalPrice) {
 		this.finalPrice = finalPrice;
+	}
+
+	public String getProgress() {
+		return progress;
+	}
+
+	public void setProgress(String progress) {
+		this.progress = progress;
 	}
 	
 	

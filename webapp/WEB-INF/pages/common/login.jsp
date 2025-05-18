@@ -16,9 +16,7 @@
     <form id="signup-form" action="${pageContext.request.contextPath}/login" method="post">
         <h2>Sign In</h2>
 
-        <div class="top-blank"></div>
-
-        <a href="javascript:history.back()" class="back-button">Back</a>
+        <a href="${pageContext.request.contextPath}/" class="back-button">Back</a>
 
         <label for="email">Email</label>
         <input type="email" name="email" placeholder="Enter your email" required />
@@ -29,7 +27,6 @@
         <button type="submit" id="submit-btn" class="login-button">Login</button>
 
         <div class="row-button-group">
-            <a href="${pageContext.request.contextPath}/forgotpassword" class="link-button">Forgot Password</a>
             <a href="${pageContext.request.contextPath}/register" class="link-button">Create Account</a>
         </div>
 

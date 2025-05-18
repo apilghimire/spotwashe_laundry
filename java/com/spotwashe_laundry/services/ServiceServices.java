@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import com.spotwashe_laundry.config.DbConnection;
 import com.spotwashe_laundry.model.Service;
-import com.spotwashe_laundry.util.PasswordEncryption;
 
 public class ServiceServices {
 	private Connection dbConn;
@@ -46,4 +45,22 @@ public class ServiceServices {
 		}
 		return null;
 	}
+
+	
+	public int getRatePrice(int serviceType) {
+		try {
+			String query = "SELECT * FROM `Service` WHERE `serviceid` = ?";
+			PreparedStatement pst = dbConn.prepareStatement(query);
+			pst.setInt(1, serviceType);
+			ResultSet set = pst.executeQuery();
+			if (set.next()) {
+				return  set.getInt("base_price_per_unit");
+				
+		}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 }

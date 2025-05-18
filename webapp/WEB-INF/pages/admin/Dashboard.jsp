@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,28 +33,29 @@
         <div class="summary-card">
             <i class="fas fa-shopping-cart"></i>
             <div class="title">Orders</div>
-            <div class="value">1,240</div>
+            <div class="value">${overview['totalOrder']}</div>
             <div class="desc">Number of Orders</div>
         </div>
         <div class="summary-card">
             <i class="fas fa-users"></i>
             <div class="title">Customers</div>
-            <div class="value">860</div>
+            <div class="value">${overview['totalUser']}</div>
             <div class="desc">Number of Customers</div>
         </div>
         <div class="summary-card">
             <i class="fas fa-check-circle"></i>
             <div class="title">Completed</div>
-            <div class="value">1,120</div>
+            <div class="value">${overview['totalCompleted']}</div>
             <div class="desc">Complete Orders</div>
         </div>
         <div class="summary-card">
             <i class="fas fa-dollar-sign"></i>
             <div class="title">Revenue</div>
-            <div class="value">$98,500</div>
+            <div class="value">$${overview['totalProfit']}</div>
             <div class="desc">Total Revenue</div>
         </div>
     </div>
+
 
     <h2>Orders</h2>
     <table class="order-table">

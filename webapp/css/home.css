@@ -7,7 +7,7 @@ body {
 }
 
 .welcome-section {
-    padding: 40px 20px;
+    padding: 20px 10px;
     text-align: center;
 }
 
@@ -36,4 +36,11 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+.services h2{
+	margin-left: 10px;
+}
+
+.why-choose-us h2{
+	margin-left: 10px;
 }

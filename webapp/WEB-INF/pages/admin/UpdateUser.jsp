@@ -29,7 +29,7 @@
 <main class="dashboard-container">
     <h2>Customer Info</h2>
     <form action="${pageContext.request.contextPath}/updateUser" method="post" style="max-width: 500px;">
-        <input type="text" name="userId" value="${userToUpdate.userId}" />
+        <input type="hidden" name="userId" value="${userToUpdate.userId}" />
 
         <label>Full Name</label>
         <div class="input-icon">

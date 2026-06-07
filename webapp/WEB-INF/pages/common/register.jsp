@@ -32,12 +32,7 @@
         <label for="userAddress">Address</label>
         <input type="text" name="userAddress" placeholder="Enter your address" required />
 
-        <label for="role">Role Type</label>
-        <select name="role" required>
-            <option value="" disabled selected>Select role</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-        </select>
+        <input type="hidden" name="role" value="user" />
 
         <label for="password">Password</label>
         <input type="password" name="password" placeholder="Create a password" required />

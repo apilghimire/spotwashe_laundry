@@ -7,7 +7,7 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
         <div class="footer-contact">
-            <a href="${pageContext.request.contextPath}/contact.jsp">Contact Us</a>
+            <a href="${pageContext.request.contextPath}/pages/contact.jsp">Contact Us</a>
         </div>
     </div>
 </footer>

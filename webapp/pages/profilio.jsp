@@ -22,7 +22,7 @@
         <div style="flex: 1; min-width: 300px;">
             <h1>Developer Profile</h1>
             <p>
-                Hi, I’m Alex Kim, a full-stack developer passionate about building seamless SaaS experiences.
+                Hi, I’m Apil Ghimire, a full-stack developer passionate about building seamless SaaS experiences.
                 I designed and developed spotwashe to help users manage laundry services with speed, reliability,
                 and a focus on sustainability. My expertise includes React, TypeScript, Node.js,
                 and modern UI/UX best practices.
